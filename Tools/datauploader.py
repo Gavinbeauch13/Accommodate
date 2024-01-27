@@ -5,8 +5,7 @@ import pickle
 
 load_dotenv()
 
-class BlobTools:   
-
+class BlobTools:
     """
     Class to check if a blob exists, if it doesn't create it and upload data
     """
@@ -20,7 +19,10 @@ class BlobTools:
         # dictionary to keep track of any pages whos metadata is too large
         # key = page_name, value = page_metadata 
         self.oversized_metadata = {}
-                
+        
+    def get_oversized_metadata(self)->dict:
+        return self.oversized_metadata
+       
     def validate_metadata_size(self, blob_name, page_metadata)->bool:
         """
             Args:
@@ -45,7 +47,7 @@ class BlobTools:
         # raise ValueError("Metadata size is too large, adding to dictionary and continuing")
 
     
-    def data_upload(self, page_name, page_content, page_metadata):
+    def data_upload(self, page_name, page_content, page_metadata)->str:
         """
             Uploads data to Azure Blob Storage. If the blob does not exist, it is created as an append blob.
             Then, school_data is appended to the blob
@@ -63,13 +65,17 @@ class BlobTools:
             
         # append data to blob
         blob_client.append_block(page_data_bytes)
+        page_status = f"Page content for {page_name} was appended to storage container\nblob_client: {blob_client}, blob_name: {blob_name}"
+        metadata_status = ""
         
+        # new line for readability when debugging in terminal
+        print("\n")
         # validate metadata is within size limits, if it is upload it, if it isn't skip it
         if self.validate_metadata_size(blob_name, page_metadata):
             blob_client.set_blob_metadata(metadata=page_metadata)
-            print(f"page_content and page_metadata for {page_name} were appended to blob: {blob_name}")
-            return
-        print(f"Page content for {page_name} was appended to blob but page_metadata was too large and wasn't appended")
-        return
+            metadata_status = f"page_metadata:\n{page_metadata}\nfor {page_name} were appended to blob: {blob_name}"
+            return page_status, metadata_status
+        metadata_status = f"Page content for {page_name} was appended to blob but page_metadata was too large and wasn't appended"
+        return page_status, metadata_status
     
     
