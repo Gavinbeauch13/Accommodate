@@ -9,49 +9,59 @@ import urllib.robotparser
 # BlobToos instance
 blob_tools = BlobTools()
 
-
+# downloads all the disallowed URL extnesions
 def download_robots_txt(robots_txt_url):
+    # makes http call to get the robots.txt file
     response = requests.get(robots_txt_url)
+    # if the response is 200, then it was a success, return the text of the robots.txt file
     if response.status_code == 200:
         return response.text
+    # else it couldn't find or access the robots.txt file and returns None
     return None
 
-def parse_robots_txt(robots_txt, disallowed_paths):
-    #disallowed_paths = set()
+# parses the robots.txt file and adds the disallowed paths into the disallowed_paths set
+def parse_robots_txt(robots_txt, disallowed_paths, university_url):
     lines = robots_txt.splitlines()
     for line in lines:
         if line.startswith('Disallow: '):
-            path = line.split(': ')[1].lstrip('/')
-            disallowed_paths.add(path)
+            # remove the 'Disallow: ' from the line and remove any leading or trailing slashes
+            # this is because when we check if a path is disallowed, we remove any leading or trailing slashes
+            # from the path and check if it is in the disallowed_paths set
+            path = line.split(': ')[1].lstrip('/').rstrip('/')
+            # add path to the set
+            disallowed_paths.add(university_url+path)
         print(f"line: {line}, path_PRT: {path}")
-    return disallowed_paths
-    
-
-# def should_scrape(university_url, user_agent, robots_txt):
-#     if robots_txt is None:
-#         return True
-#     rp = urllib.robotparser.RobotFileParser()
-#     rp.parse(robots_txt.splitlines())
-    
-#     return rp.can_fetch(user_agent, university_url)
 
 def scraper(university_url, robots_txt):
+    # make a set to hold disallowed paths
     disallowed_paths = set()
-    parse_robots_txt(robots_txt, disallowed_paths)
+    
+    # parse the robots.txt file and add the disallowed paths to the disallowed_paths set
+    parse_robots_txt(robots_txt, disallowed_paths, university_url)
+    # print the disallowed paths
     print(f"Disallowed Paths: {disallowed_paths}")
-    
+
+    # TODO: add comments here
     loader = RecursiveUrlLoader(
-        url=university_url, max_depth=1, extractor=lambda x: Soup(x, "html.parser").text
+        url=university_url, 
+        max_depth=1, 
+        exclude_dirs=disallowed_paths, 
+        extractor=lambda x: Soup(x, "html.parser").text
     )
-    
+
+    # print what's in loader before loading
     print(f"loader_SCRAPER: {loader}")
     pages = loader.load()
+    # print what's in pages after loading loader
     print(f"pages_SCRAPER: {pages}")
     
+    # loop through each page, chope off the root url and then check if the
+    # remaining URL extenstion is in disallowed paths
     for page in pages:
         # Extract path after root URL (https://www.school.edu/)
         path = page.url[len(university_url):]
         print(f"Path_SCRAPER = {path}")
+        # if the path is not in the disallowed paths, then upload the page
         if path not in disallowed_paths:
             upload_page(page)
 
