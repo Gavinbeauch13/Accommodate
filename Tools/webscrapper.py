@@ -10,20 +10,20 @@ import urllib.robotparser
 blob_tools = BlobTools()
 
 
-def download_robots_txt(university_url):
-    response = requests.get(university_url + "/robots.txt")
+def download_robots_txt(robots_txt_url):
+    response = requests.get(robots_txt_url)
     if response.status_code == 200:
         return response.text
     return None
 
-def parse_robots_txt(robots_txt):
-    disallowed_paths = set()
+def parse_robots_txt(robots_txt, disallowed_paths):
+    #disallowed_paths = set()
     lines = robots_txt.splitlines()
     for line in lines:
         if line.startswith('Disallow: '):
             path = line.split(': ')[1].lstrip('/')
             disallowed_paths.add(path)
-        print(f"line: {line}")
+        print(f"line: {line}, path_PRT: {path}")
     return disallowed_paths
     
 
@@ -36,17 +36,22 @@ def parse_robots_txt(robots_txt):
 #     return rp.can_fetch(user_agent, university_url)
 
 def scraper(university_url, robots_txt):
-    user_agent = "url@url.com, Azure CloudForce Track, spresley1@gulls.salisbury.edu, Admissions+DisabilityHelperScraper"
-    disallowed_paths = parse_robots_txt(robots_txt)
+    disallowed_paths = set()
+    parse_robots_txt(robots_txt, disallowed_paths)
+    print(f"Disallowed Paths: {disallowed_paths}")
     
     loader = RecursiveUrlLoader(
         url=university_url, max_depth=1, extractor=lambda x: Soup(x, "html.parser").text
     )
     
+    print(f"loader_SCRAPER: {loader}")
     pages = loader.load()
+    print(f"pages_SCRAPER: {pages}")
+    
     for page in pages:
         # Extract path after root URL (https://www.school.edu/)
         path = page.url[len(university_url):]
+        print(f"Path_SCRAPER = {path}")
         if path not in disallowed_paths:
             upload_page(page)
 
@@ -69,12 +74,14 @@ def upload_page(pages):
     print(f"Following pages metadata was not uploaded, {blob_tools.oversized_metadata.keys()}")
     
 university_info = {
-    "https:": "salisbury_university_page"
+    "https://www.umbc.edu/": "umbc_page", 
+    "https://www.vt.edu/": "vt_page", 
+    "https://www.hopkins.edu/": "hopkins_page",
     }
 
 university_urls = list(university_info.keys())
 for university_url in university_urls:
-    robots_txt = download_robots_txt(university_url)
-    robots_txt_url = university_url + "robots.txt"
-    scraper(university, robots_txt)
+    robots_txt_url = university_url + "robots.txt" 
+    robots_txt = download_robots_txt(robots_txt_url)
+    scraper(university_url, robots_txt)
 
