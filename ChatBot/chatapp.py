@@ -6,29 +6,36 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def run_conversation():
-    llm = ChatOpenAI(model_name='gpt-3.5-turbo')
-    conversational_chain = ConversationChain(llm=llm)
-    conversation_history = []
-    
-    print("Hello! How may I help you?\n")
-    
-    while True:
-        user_input = input("You:\n")
+class chat_bot:
+    def __init__(self):
+        self.llm = ChatOpenAI(model_name='gpt-3.5-turbo')
+        self.conversational_chain = ConversationChain(llm=self.llm)
+        self.conversation_history = []            
+        self.user_input = ""
+            
+    def run_conversation(self, user_input)->str:    
+        print("Hello! How may I help you?\n") 
         
+        self.user_input = user_input
+            
         # Add user input to conversation history
-        conversation_history.append({"text": user_input, "is_usesr": True})
-        
+        self.conversation_history.append({"text": user_input, "is_user": True})
+            
         # Get the models response
-        model_response = conversational_chain.invoke(conversation_history)
+
+        model_response = self.conversational_chain.invoke(self.conversation_history)
 
         # Print the model response dictionary
         #print("Model response dictionary:\n", model_response)
 
         # Print model response and update chat history
-        print("AI:\n", model_response["response"])
-        conversation_history.append(model_response)
+        response = "AI:\n," + model_response["response"]
+        self.conversation_history.append(model_response)
+        return response
 
-run_conversation()
+    #run_conversation()
+
+
+
 
 
