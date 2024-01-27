@@ -1,0 +1,12 @@
+RUN COMMAND BEFORE UTILIZING SCRIPT
+pip3 install -r requirements.txt
+
+HOW TO:
+Import the class
+"from datauploader import BlobTools"
+
+create an instance
+"blob_tool = BlobTools()"
+
+call the method
+"blob_tool.data_upload(school_name, school_data)"

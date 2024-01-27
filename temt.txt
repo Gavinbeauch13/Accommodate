@@ -1,0 +1,50 @@
+import requests
+from bs4 import BeautifulSoup
+
+def crawl_and_save(url, max_pages=5):
+    visited_pages = set()
+    page_count = 0
+
+    while page_count < max_pages:
+        if url not in visited_pages:
+            try:
+                # Send a GET request to the URL
+                response = requests.get(url)
+                
+                # Check if the request was successful (status code 200)
+                if response.status_code == 200:
+                    # Parse the HTML content using BeautifulSoup
+                    soup = BeautifulSoup(response.content, 'html.parser')
+
+                    # Save the HTML content to a text file
+                    with open(f"{url.replace('https://', '').replace('/', '_')}_content.txt", 'w', encoding='utf-8') as file:
+                        file.write(str(soup))
+
+                    # Mark the page as visited
+                    visited_pages.add(url)
+
+                    # Extract links from the page
+                    links = soup.find_all('a', href=True)
+                    for link in links:
+                        next_url = link['href']
+                        
+                        # Ensure the URL is absolute (may need further validation)
+                        if not next_url.startswith('http'):
+                            next_url = url + next_url
+
+                        # Queue the next URL for crawling
+                        if next_url not in visited_pages:
+                            url = next_url
+                            break
+            except Exception as e:
+                print(f"Error crawling {url}: {e}")
+
+        # Increment the page count
+        page_count += 1
+
+# Example usage:
+uni_urls = ["https://www.salisbury.edu/"]# "https://umbc.edu/", "https://umd.edu/"]
+
+for cur_uni in uni_urls:
+    crawl_and_save(cur_uni, max_pages=1)
+    
