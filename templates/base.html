@@ -5,34 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accomodate</title>
     <link rel="stylesheet" href="./static/src/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="antialiased flex flex-col">
-    <nav class="w-full h-20 bg-stone-300">
+<body x-data="{ open: false }" class="antialiase">
+    <nav class="w-full h-20 bg-sky-300">
         <div class="flex flex-row justify-between p-2">
             <div class="flex items-center p-4">
                 <h1 class="">Accommodate</h1>
             </div>
             <div class="flex items-center basis-1/2">
                 <form class="w-full">
-                    <input type="text" class="w-11/12 rounded-xl p-1 ">
+                    <input name="institution" type="text" class="w-11/12 rounded-xl p-1 hover:border-none">
                 </form>
             </div>
-            <div class= "flex items-center h-16 w-16 rounded-xl shadow-lg bg-stone-200 hover:bg-stone-400 hover:shadow-sm">
+            <button @click="open = !open" class= "flex items-center h-16 w-16 rounded-xl shadow-lg bg-stone-200 hover:bg-stone-400 hover:shadow-sm">
                 <div class="m-1.5">
                     <div class=" h-0.5 w-10 bg-black m-2"></div>
                     <div class="h-0.5 w-10  bg-black m-2"></div>
                     <div class="h-0.5 w-10  bg-black m-2"></div>
                 </div>
-            </div>
+            </button>
         </div>
     </nav>
-    
+  
+    <div x-show="open" class=" bg-black">
+        <p>hello</p>
+    </div>
     {% block content %}{% endblock %}
+    <footer class="flex items-center fixed bottom-0 left-0 w-full h-20 bg-sky-300">
+        <div class=" container mx-auto text-center">
+            <p class="text-xl">&copy; Accommodate Team</p>
 
-    <footer class="fixed bottom-0">
-        <div class="h-32 w-full flex flex-row justify-center">
-            <p class="">&copy; Accommodate Team</p>
         </div>
     </footer>
 </body>
+
 </html>
