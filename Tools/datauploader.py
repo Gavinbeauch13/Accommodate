@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class BlobTools:   
+
     """
     Class to check if a blob exists, if it doesn't create it and upload data
     """
@@ -33,7 +34,5 @@ class BlobTools:
         # append data to blob
         blob_client.append_block(page_data_bytes)
         print(f"Data appended to blob: {blob_name}")
-        
-    
     
     
