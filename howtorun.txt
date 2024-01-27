@@ -3,7 +3,7 @@ Winodws
 2. set FLASK_DEBUG="1"
 3. flask run
 
-Export
-1. set FLASK_APP="main.py"
-2. set FLASK_DEBUG="1"
+Linux
+1. export FLASK_APP="main.py"
+2. export FLASK_DEBUG="1"
 3. flask run
