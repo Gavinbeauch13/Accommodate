@@ -18,7 +18,7 @@ def login():
 
 @app.route("/school")
 def school():
-    stars = 4.7
+    stars = 1.7
 
     star_counter = StarCounter()
 
