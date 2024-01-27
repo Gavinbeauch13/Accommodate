@@ -2,3 +2,7 @@ __pycache__
 venv
 .env
 ChatBot
+node_modules
+venv.txt
+actualyopenaikey.txt
+text.tx
