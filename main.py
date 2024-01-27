@@ -16,6 +16,10 @@ def about():
 def login():
     return render_template("login.html")
 
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
+
 @app.route("/school")
 def school():
     stars = 1.7
