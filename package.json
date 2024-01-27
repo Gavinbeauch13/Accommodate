@@ -4,5 +4,10 @@
     "@babel/preset-react": "^7.23.3",
     "mongodb": "^6.3.0",
     "node.js": "^0.0.1-security"
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  },
+  "dependencies": {
+    "alpinejs": "^3.13.5"
   }
 }
