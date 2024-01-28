@@ -2,10 +2,21 @@ from usertb  import findUsertb
 
 
 def get_review(data, school):
-    reviews = data["username"]["numofreviews"]
-    for review in reviews:
-        if review["school"] == school:
-            return float(review["review"])
+    review_amount = 0
+    score = 0
+
+    # reviews = data["username"]["numofreviews"]
+
+    for users in data:
+      for review in users["numofreviews"]:
+          if review["school"] == school:
+
+            review_amount += 1
+            score += float(review["review"])
+    
+    score = (score / review_amount)
+    
+    return score
         
         
 
