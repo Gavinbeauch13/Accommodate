@@ -20,6 +20,10 @@ def login():
 def signup():
     return render_template("signup.html")
 
+@app.route("/chat")
+def chat():
+    return render_template("chat.html")
+
 @app.route("/school")
 def school():
     stars = 1.7
