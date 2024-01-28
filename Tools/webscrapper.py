@@ -30,9 +30,10 @@ def parse_robots_txt(robots_txt, disallowed_paths, university_url):
             path = line.split(': ')[1].lstrip('/').rstrip('/')
             # add path to the set
             disallowed_paths.add(university_url+path)
-        print(f"line: {line}, path_PRT: {path}")
+            print(f"line: {line}, path_parsed: {path}")
 
 def scraper(university_url, robots_txt):
+
     # make a set to hold disallowed paths
     disallowed_paths = set()
     
@@ -57,29 +58,24 @@ def scraper(university_url, robots_txt):
     
     # loop through each page, chope off the root url and then check if the
     # remaining URL extenstion is in disallowed paths
-    for page in pages:
+    for page_number, page in enumerate(pages):
         # Extract path after root URL (https://www.school.edu/)
-        path = page.url[len(university_url):]
-        print(f"Path_SCRAPER = {path}")
+        page_url = page.metadata['source']
+        print(f"Path_SCRAPER = {[page_url]}")
         # if the path is not in the disallowed paths, then upload the page
-        if path not in disallowed_paths:
-            upload_page(page)
+        if page_url not in disallowed_paths:
+            upload_page(page.page_content, page.metadata, page_number+1)
 
-def upload_page(pages):
+def upload_page(page_content, page_metadata, page_number):
     # i = current iteration, page = current page in pages
-    for i, page in enumerate(pages):
-        print("starting upload on {page}, iteration: {i}")
-        # actual content on page
-        page_content = page.page_content
-        # metadata about page, url, title, description, etc.
-        page_metadata = page.metadata
-        # getting the url associated with the page
-        url = page_metadata['source']
-        # rename the page to {university_name_(i+1)}, i.e. 'salisbury_university_page_1'
-        blob_name = f"{university_info[url]}_{i+1}"
-        # upload the doc to the blob container
-        blob_tools.data_upload(blob_name, page_content, page_metadata)
-        print(f"Done uploading Page: {page}")
+    print("starting upload on {page}, iteration: {i}")
+    # getting the url associated with the page
+    url = page_metadata['source']
+    # rename the page to {university_name_(i+1)}, i.e. 'salisbury_university_page_1'
+    blob_name = f"{university_info[url]}_{page_number}"
+    # upload the doc to the blob container
+    blob_tools.data_upload(blob_name, page_content, page_metadata)
+    print(f"Done uploading Page: {page_number}")
     print("all pages uploaded")
     print(f"Following pages metadata was not uploaded, {blob_tools.oversized_metadata.keys()}")
     

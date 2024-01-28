@@ -57,12 +57,12 @@ class BlobTools:
         """
         blob_name = f"{page_name}.txt"
         blob_client = self.container_client.get_blob_client(blob=blob_name)
-        
         page_data_bytes = page_content.encode('utf-8')
         # Check if the blob exists, if it doesn't create it
         if not blob_client.exists():
             blob_client.create_append_blob()
-            
+        page_content = page_content.replace('\u2019', "'")
+        page_metadata = {k.replace('\u2019', "'"): v.replace('\u2019', "'") if isinstance(v, str) else v for k, v in page_metadata.items()}
         # append data to blob
         blob_client.append_block(page_data_bytes)
         page_status = f"Page content for {page_name} was appended to storage container\nblob_client: {blob_client}, blob_name: {blob_name}"

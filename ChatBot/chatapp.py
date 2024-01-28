@@ -4,7 +4,7 @@ from langchain.chains import ConversationChain
 from dotenv import load_dotenv
 
 
-load_dotenv()
+#load_dotenv()
 
 class chat_bot:
     def __init__(self):
@@ -12,10 +12,10 @@ class chat_bot:
         self.conversational_chain = ConversationChain(llm=self.llm)
         self.conversation_history = []            
         self.user_input = ""
-            
+    
     def run_conversation(self, user_input)->str:    
-        print("Hello! How may I help you?\n") 
-        
+        #print("Hello! How may I help you?\n") 
+        load_dotenv()
         self.user_input = user_input
             
         # Add user input to conversation history
