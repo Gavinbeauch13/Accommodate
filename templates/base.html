@@ -4,8 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accomodate</title>
+    <link rel="stylesheet" href="./static/src/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body>
-    {% block content %}{% endblock %}
+<body x-data="{ open: false }" class="antialiase flex flex-col min-h-screen">
+    <nav class="w-full h-20 bg-blue-300 rounded-b-lg p-1">
+        <div class="flex flex-row justify-between">
+            <div class="flex justify-center items-center hover:bg-blue-400 rounded-xl h-16 w-16 m-1">
+                <!-- removed background using https://icons8.com/bgremover -->
+                <a href="/"><img height="75" width="75" src="../static/src/assets/logo.png" alt="Logo" class=""></a>
+            </div>
+            <div class="flex flex-grow max-w-4xl items-center w-96">
+                <form class="w-full ">
+                    <label></label>
+                    <input name="institution" type="text" class="w-11/12 rounded-xl p-1 focus:outline-none text-center" placeholder="Enter your institutions name here...">
+                </form>
+            </div>
+            <button @click="open = !open" class= "flex items-center h-16 w-16 rounded-xl shadow-lg bg-white hover:bg-stone-400 hover:shadow-sm m-1">
+                <div class="flex flex-row justify-center p-3">
+                    <svg class="h-10 w-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
+                </div>
+            </button>
+        </div>
+    </nav>
+
+    <div class="absolute right-0 mt-20 z-50 flex flex-row justify-end">
+        <div x-show="open" class=" h-80 w-32 bg-white shadow-lg rounded-lg">
+            <div class="h-10 w-full rounded-lg shadow-lg shadow-sky-200 text-center hover:shadow-sm my-2">
+                <a href="/login"><p class="py-2">Login</p></a>
+            </div>
+            <div class=" h-10 w-full rounded-lg shadow-lg shadow-sky-200 text-center hover:shadow-sm my-2">
+                <a href="/signup"><p class="py-2">Sign Up</p></a>
+            </div>
+            <div class=" h-10 w-full rounded-lg shadow-lg shadow-sky-200 text-center hover:shadow-sm my-2">
+                <a href="/profile"><p class="py-2">Profile</p></a>
+            </div>
+            <div class=" h-10 w-full rounded-lg shadow-lg shadow-sky-200 text-center hover:shadow-sm my-2">
+                <a href="/about"><p class="py-2">About</p></a>
+            </div>
+            
+        </div>
+    </div> 
+    <div class="min-h-full ">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <a target="_blank" href="/chat">
+        <svg class="fixed bottom-24 right-2 h-16 w-16 m-4 hover:animate-pulse" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6C73.6 471.1 44.7 480 16 480c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4l0 0 0 0 0 0 0 0 .3-.3c.3-.3 .7-.7 1.3-1.4c1.1-1.2 2.8-3.1 4.9-5.7c4.1-5 9.6-12.4 15.2-21.6c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z"/></svg>
+    </a>
+
+    <footer class="mt-auto w-full h-22 bg-blue-300 rounded-t-lg">
+        <div class="container mx-auto text-center p-7">
+            <p class="text-xl text-center italic font-medium">&copy; Accommodate Team</p>
+        </div>
+    </footer>
 </body>
+
 </html>
