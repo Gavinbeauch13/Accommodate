@@ -12,7 +12,7 @@ class StarCounter:
             elif stars >= 0.5:
                 self.halfstar += 1
                 stars -= 0.5
-            elif stars == 0:
+            elif stars < 0.5:
                 self.emptystars += 1
 
     def get_counts(self):
