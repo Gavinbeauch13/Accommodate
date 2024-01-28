@@ -94,11 +94,11 @@ def upload_page(page_content, page_metadata, page_number, university_url):
     print("all pages uploaded")
     print(f"Following pages metadata was not uploaded, {blob_tools.oversized_metadata.keys()}")
     
-university_info = {
-    "https://www.umbc.edu/": "umbc_page", 
-    "https://www.vt.edu/": "vt_page", 
-    "https://www.hopkins.edu/": "hopkins_page",
+university_info = { 
+    "https://www.udel.edu/": "uofd_page",
     }
+   #     "https://www.umbc.edu/": "umbc_page", 
+    #"https://www.vt.edu/": "vt_page", 
     #"https://collegescorecard.ed.gov/": "collegescorecard_page",
     #"https://www.collegeconfidential.com/": "collegeconfidential_page",
     #"https://www.unigo.com/": "unigo_page",
