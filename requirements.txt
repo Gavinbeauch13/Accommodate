@@ -1,0 +1,4 @@
+azure-storage-blob
+python-dotenv
+langchain
+langchain_community
