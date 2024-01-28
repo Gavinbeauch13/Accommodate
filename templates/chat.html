@@ -8,7 +8,7 @@
             </div>
 
             <form id="chatForm" class="flex flex-row justify-center">
-                <input name="usermessage," type="text" class="mx-10 my-4 bg-gray-200 rounded-lg p-1" style="width: 1200px;" placeholder="Please enter a message to be sent to a GPT Agent">
+                <input name="usermessage" type="text" class="mx-10 my-4 bg-gray-200 rounded-lg p-1" style="width: 1200px;" placeholder="Please enter a message to be sent to a GPT Agent">
                 <button id="submitbutton" type="submit"  class="bg-gray-200 w-32 h-10 mx-32 my-3 rounded-lg">Send Message</button>
             </form>
         </div>
@@ -18,19 +18,43 @@
         document.getElementById('chatForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            addMessages();
+            const url = '/chat';
+            const userMessage = document.getElementsByName('usermessage')[0].value;
+
+            const data = {
+                message : userMessage
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+
+                addMessages(userMessage, data.response);
+            })
+
         });
     
-        function addMessages() {
+        function addMessages(userMessage, response) {
+            console.log(userMessage)
+            console.log(response)
+            var cleanedResponse = response.replace(/^AI:\s*,/, "").trim();
+
             var messagesContainer = document.getElementById('messages');
 
             var leftMessageBox = document.createElement('div');
             leftMessageBox.className = 'bg-blue-100 rounded-lg p-2 m-2 w-1/3 self-end';
-            leftMessageBox.innerHTML = '<p>Left Message Content</p>'; 
+            leftMessageBox.innerHTML = `<p>${userMessage}</p>`; 
 
             var rightMessageBox = document.createElement('div');
             rightMessageBox.className = 'bg-green-100 rounded-lg p-2 m-2 w-1/3 self-start';
-            rightMessageBox.innerHTML = '<p>Right Message Content</p>'; 
+            rightMessageBox.innerHTML = `<p>${cleanedResponse}</p>`; 
 
             var leftMessageRow = document.createElement('div');
             var rightMessageRow = document.createElement('div');
@@ -38,11 +62,11 @@
             leftMessageRow.className = 'flex w-full justify-end my-1';
             rightMessageRow.className = 'flex w-full justify-start my-1';
 
-            leftMessageRow.appendChild(leftMessageBox);
             rightMessageRow.appendChild(rightMessageBox);
+            leftMessageRow.appendChild(leftMessageBox);
 
-            messagesContainer.insertBefore(rightMessageRow, messagesContainer.firstChild);
-            messagesContainer.insertBefore(leftMessageRow, messagesContainer.firstChild);
+            messagesContainer.appendChild(leftMessageRow);
+            messagesContainer.appendChild(rightMessageRow);
 
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }

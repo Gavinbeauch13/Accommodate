@@ -8,4 +8,4 @@ python-dotenv
 # langchain dependencies, these should be optional in the future
 # langchain moved Embeddings from langchain.embeddings.base to langchain.schema.embeddings while azureml-rag is still referencing it.
 # once azureml-rag fixes, we should remove the langchain reference from this file
-semantic-kernel
+semantic-kernelm

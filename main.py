@@ -1,5 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from calculatestars import StarCounter
+from ChatBot.chatapp import chat_bot
+from dotenv import load_dotenv
+
+gpt_bot = chat_bot()
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -24,9 +30,19 @@ def signup():
 def chat():
     return render_template("chat.html")
 
+@app.route("/chat", methods=["POST"])
+def getMessage():
+    posted_data = request.json
+    message = posted_data.get("message")
+
+    bot = chat_bot()
+    response = bot.run_conversation(message)
+
+    return jsonify({'response': response})
+
 @app.route("/school")
 def school():
-    stars = 1.7
+    stars = 4.25
 
     star_counter = StarCounter()
 
@@ -37,9 +53,9 @@ def school():
 
 @app.route("/posts")
 def posts():
-    school = "Green Valley College"
+    school = "UMBC"
 
-    stars = 1.7
+    stars = 4.25
 
     star_counter = StarCounter()
 
@@ -64,10 +80,10 @@ def posts():
             "comment": "Great experience and learning environment.",
             },
             {
-            "school": "Riverside University",
+            "school": "UMBC",
             "date": "2023-11-10",
             "review": "4.5",
-            "comment": "Great experience and learning environment.",
+            "comment": "Great experience with their disibility services and learning environment.",
             }
         ]
     },
@@ -83,9 +99,9 @@ def posts():
             "comment": "I LOVE IT HAD A experience and learning environment.",
             },
             {
-            "school": "Green Valley College",
+            "school": "UMBC",
             "date": "2021-22-15",
-            "review": "2.5",
+            "review": "4.0",
             "comment": "I LOVE IT HAD A Great experience and learning environment.",
             },
             {

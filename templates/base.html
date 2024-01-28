@@ -17,7 +17,7 @@
             <div class="flex flex-grow max-w-4xl items-center w-96">
                 <form class="w-full ">
                     <label></label>
-                    <input name="institution" type="text" class="w-11/12 rounded-xl p-1 focus:outline-none text-center" placeholder="Enter your institutions name here...">
+                    <input onclick="window.location.href='/school';" name="institution" type="text" class="w-11/12 rounded-xl p-1 focus:outline-none text-center" placeholder="Enter your institutions name here..." value="Click for demo institution search: UMBC">
                 </form>
             </div>
             <button @click="open = !open" class= "flex items-center h-16 w-16 rounded-xl shadow-lg bg-white hover:bg-stone-400 hover:shadow-sm m-1">
@@ -35,9 +35,6 @@
             </div>
             <div class=" h-10 w-full rounded-lg shadow-lg shadow-sky-200 text-center hover:shadow-sm my-2">
                 <a href="/signup"><p class="py-2">Sign Up</p></a>
-            </div>
-            <div class=" h-10 w-full rounded-lg shadow-lg shadow-sky-200 text-center hover:shadow-sm my-2">
-                <a href="/profile"><p class="py-2">Profile</p></a>
             </div>
             <div class=" h-10 w-full rounded-lg shadow-lg shadow-sky-200 text-center hover:shadow-sm my-2">
                 <a href="/about"><p class="py-2">About</p></a>
