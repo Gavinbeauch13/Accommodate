@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import flask, render_template
 from calculatestars import StarCounter
 
 app = Flask(__name__)
