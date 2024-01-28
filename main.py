@@ -42,7 +42,7 @@ def getMessage():
 
 @app.route("/school")
 def school():
-    stars = 4.25
+    stars = 1.7
 
     star_counter = StarCounter()
 
@@ -53,9 +53,9 @@ def school():
 
 @app.route("/posts")
 def posts():
-    school = "UMBC"
+    school = "Green Valley College"
 
-    stars = 4.25
+    stars = 1.7
 
     star_counter = StarCounter()
 
@@ -80,10 +80,10 @@ def posts():
             "comment": "Great experience and learning environment.",
             },
             {
-            "school": "UMBC",
+            "school": "Riverside University",
             "date": "2023-11-10",
             "review": "4.5",
-            "comment": "Great experience with their disibility services and learning environment.",
+            "comment": "Great experience and learning environment.",
             }
         ]
     },
@@ -99,9 +99,9 @@ def posts():
             "comment": "I LOVE IT HAD A experience and learning environment.",
             },
             {
-            "school": "UMBC",
+            "school": "Green Valley College",
             "date": "2021-22-15",
-            "review": "4.0",
+            "review": "2.5",
             "comment": "I LOVE IT HAD A Great experience and learning environment.",
             },
             {
