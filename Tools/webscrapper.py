@@ -38,7 +38,8 @@ def scraper(university_url, robots_txt):
     disallowed_paths = set()
     
     # parse the robots.txt file and add the disallowed paths to the disallowed_paths set
-    parse_robots_txt(robots_txt, disallowed_paths, university_url)
+    if robots_txt != None:
+        parse_robots_txt(robots_txt, disallowed_paths, university_url)
     # print the disallowed paths
     print(f"Disallowed Paths: {disallowed_paths}")
 
@@ -95,8 +96,9 @@ def upload_page(page_content, page_metadata, page_number, university_url):
     print(f"Following pages metadata was not uploaded, {blob_tools.oversized_metadata.keys()}")
     
 university_info = { 
-    "https://www.udel.edu/": "uofd_page",
+    "https://disabilityhealth.jhu.edu/": "jhud_page",
     }
+    #"https://www.udel.edu/": "uofd_page",
    #     "https://www.umbc.edu/": "umbc_page", 
     #"https://www.vt.edu/": "vt_page", 
     #"https://collegescorecard.ed.gov/": "collegescorecard_page",
