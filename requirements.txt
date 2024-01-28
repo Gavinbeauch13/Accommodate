@@ -4,5 +4,4 @@ bs4
 langchain
 langchain_community
 requests
-os
 pickle
